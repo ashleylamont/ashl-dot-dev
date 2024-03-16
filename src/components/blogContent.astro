@@ -1,0 +1,78 @@
+---
+import {getCollection} from "astro:content";
+
+const allExperience = await getCollection("experience");
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+// Sort by end date, descending, with nulls first. Use start date as a tiebreaker.
+const experienceSort = (a: (typeof allExperience)[0], b: (typeof allExperience)[0]) => {
+  if (a.data.whenEnd && b.data.whenEnd) {
+    return b.data.whenEnd - a.data.whenEnd;
+  } else if (a.data.whenEnd) {
+    return 1;
+  } else if (b.data.whenEnd) {
+    return -1;
+  } else {
+    return b.data.whenStart - a.data.whenStart;
+  }
+};
+---
+<p>
+  I've had the amazing opportunity to work in a handful of awesome
+  places, and take part in some really cool projects. Here's a few
+  highlights:
+</p>
+{
+    allExperience.sort(experienceSort).map((experience) => (
+    <p>
+      {experience.data.whenEnd === undefined ?
+          <>I{" "}
+            {
+              {
+                volunteer: "volunteer",
+                work: "work",
+                education: "study",
+              }[experience.data.type]
+            }</> :
+          <>I've{" "}
+            {
+              {
+                volunteer: "volunteered",
+                work: "worked",
+                education: "studied",
+              }[experience.data.type]
+            }</>}{" "}
+      at <span class="accent">{experience.data.where}</span> as{" "}
+      {experience.data.whatArticle}{" "}
+      <span class="accent">{experience.data.what}</span> from{" "}
+      <span class="accent">
+                {months[experience.data.whenStart.getMonth()]}{" "}
+        {experience.data.whenStart.getFullYear()}
+              </span>
+      {experience.data.whenEnd && (
+          <>
+            {" "}
+            to{" "}
+            <span class="accent">
+                    {months[experience.data.whenEnd.getMonth()]}{" "}
+              {experience.data.whenEnd.getFullYear()}
+                  </span>
+          </>
+      )}
+      . <br/><small><a href=`/experience/${experience.slug}`>Read more...</a></small>
+    </p>
+        ))
+    }

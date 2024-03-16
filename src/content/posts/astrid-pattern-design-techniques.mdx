@@ -1,0 +1,156 @@
+---
+title: "Astrid Design Pattern Techniques"
+slug: "astrid"
+publishedDate: "2024-06-01"
+tags: ["cosplay", "design"]
+thumbnail: "/path/to/thumbnail.jpg"
+---
+
+Alright famski so you wanna make patterns for Astrid yeah?
+
+Ok step one, make the patterns as a mesh in blender? don’t know how to do that, then step 1a is learn blender, step 1b is to then make the meshes in blender.
+
+ ![Look it's a mesh](/api/attachments.redirect?id=7bde1090-1ecb-4f27-b289-dfdab529e204)
+
+Highly recommend lining up source material with the axes so that you can lock to an orthographic perspective to get shapes and whatnot right
+
+Then, you’ll want to probably redo the mesh because odds are it’ll be the right shape but your geometry will be fucked.
+
+Honestly, just watch Kamui’s video on this it does a better explanation than I can, and that’s where I got the idea from. Most of the original process I used is from there.
+
+[https://youtu.be/wRBk9npIevQ](https://youtu.be/wRBk9npIevQ)
+
+Ok great so you’ve fixed up your mesh now hopefully. Once you’ve done that, export the parts from blender and make sure to limit the export to only selected. With that export, you should have a one-sided mesh of your part. Congrats you did the thing!
+
+Ok now comes the fun bit, buying software ✨ - [Pepakura Designer](https://tamasoft.co.jp/pepakura_designer/index.html) specifically.
+
+Look you can actually do what you need to in theory on the trial version and it’s a great way to check it out, but I’d highly recommend buying it, it’s really good software and I haven’t found anything else that does what it does as well as it does other than like, professional CAD software that costs thousands of dollars.
+
+Anyways, now you’ve downloaded Pepakura, and opened it. Again following Kamui’s video is great here, but otherwise you’ll want to open the file in Pepakura, and follow the import prompts. Check your scaling when it comes up, it’s probably off by a factor of 10x.
+
+Ok now you’ve imported into pepakura, you’ve probably got something like the following:
+
+ ![](/api/attachments.redirect?id=d977514d-a964-4218-bc14-607128d05f3f)
+
+Note, you probably won’t have the orange lines yet.
+
+You have a few options from here, and poking buttons and trying shit to see what works is highly recommended.
+
+If you want to just have an unfolded mesh, hit unfold in the top menu and it’ll do its magic, you’ll probably get shit everywhere though.
+
+You’ll get much better results if you manually set cut lines, especially on curved pieces. You can use the subdivide edges and make them smooth button for this.
+
+ ![](/api/attachments.redirect?id=9a7f2ae3-644e-4174-8aea-9dd3373e5b32)
+
+With this, click on the edges in the model where it curves the most from one side to the other (i.e. the edge is raised or at an angle). Once you think you’ve got nice edges picked, unfold and see what it looks like.
+
+You’ll probably need to shift the cuts with the join/disjoin faces button, use it to split or join parts. ![](/api/attachments.redirect?id=82a8b471-896c-4949-a208-f7616e885c4b)
+
+Once you’ve got something that looks like something you could feasibly glue together (larger solid pieces are much easier to work with), then you can print to a PDF or export to an SVG.
+
+If you’re just using a regular printer (the sort that you’d print word docs on) then PDF is probably the way to go.
+
+If you’re using a laser cutter or other CNC plotting device, SVG will probably be the way to go.
+
+And that’ll get you some basic patterns. Practising this method and playing around with pepakura will help make your unfolds much easier to work with once you get to your actual materials, and having a 3d scan of yourself in blender will help immensely with scale, otherwise there isn’t really too much to say of it all. It’s a relatively simple process, once you get used to blender and pepakura.
+
+
+For actually printing the patterns onto a physical material, you’ve got a bunch of options. Pepakura can split patterns across pages so if you’ve only got your local uni or library printer, that’s an option, but it kinda sucks ass.
+
+If you can get to a vinyl cutter and swap the blade out for a pen, those are really great for drawing an SVG out, I’ve done this with a modified GS-24 and it lets me print onto A1 card, which is crazy helpful.
+
+Alternatively, something I’m experimenting with currently is going straight on to foam with a laser cutter. This obviously isn’t accessible to everyone, but if you can get to a laser cutter, such as at your local makerspace, it should make life really easy for you, and all your cuts very precise. Plus, as I’ll get to shortly, you can even etch with it.
+
+# Making cool scales (hopefully)
+
+Ok so, to make the scales by hand the first time, I kinda just drew on circles and dug them out with a soldering iron. This, however, takes fucking ages. Hence, get a machine to do it instead, it’s faster, and more accurate (hopefully).
+
+So, the challenge here, is getting scales into the SVG export, that line up at the edges. You can’t just draw scales on, because the edges aren’t all the same shape, they only really line up in three-dimensional space. Luckily, we can work in 3d, we have a mesh in blender!
+
+So, this is only really going to be useful info for the scales, but I guess if you make your own mesh for whatever project, you can kinda appropriate it there?
+
+Anyways, the eventual goal is to have auto-generated scales that can look something like this:
+
+ ![](/api/attachments.redirect?id=9772929b-d9ec-4ed0-a085-3fda1ba9df23 " =499x485")
+
+But of course, it also needs to be laser-cut and lasers just need a grey-scale “burn here if it’s coloured darker” image, so having an alternate mode for that is handy, e.g.
+
+ ![](/api/attachments.redirect?id=633d47d2-e7ff-47a8-a245-a64d670f430c " =499x410")
+
+You’ve probably gathered by now that both of those are screenshots from blender, so it can definitely be done.
+
+So, the trick to getting cool looking scales is a trick I found that [somebody was using to make cobblestones](https://blenderartists.org/t/rounded-corners-on-voronoi-shader/1348818), actually. Turns out, Deadly Nadder scales and cobblestones actually look surprisingly similar ✨.
+
+Anyways, this gets us our basic “scale” shape. Lots of tweaking is needed from there, but the basic shape comes from that.
+
+That trick should get us what is essentially a “is this a scale or a bit between” value in our shader. To use that is pretty easy, just have a scale shader and a between shader, and run them through a mix node with that value plugged in as the fac. If you want to switch between a “how it will look after making” view and a “what the laser cutter needs” view like I do with the two screenshots above, just have two pairs of shaders and a third mix node that mixes the two of them so you can swap between.
+
+You can then do some stuff to make the shader look nicer, the laser cutter only really needs a black and white diffuse BSDF shader, but for the “as it would look once made” shader, you can be a bit more creative. I’ve gone with something simple, just two principled BSDF shaders with the scales a bit shinier, and with a little bit of a noise texture going into the base scale colour, along with a bump mix based on whether it’s a scale or not. End product looks nice for something so simple.
+
+ ![](/api/attachments.redirect?id=af4b9c74-7066-4e7d-9172-e5141d8b56ad)
+
+I cooked those nodes into a node group, so I could reuse it, here it is if you want to copy it or whatever:
+
+ ![](/api/attachments.redirect?id=f37f2efa-b2ff-4728-8a40-cb5140dce702)
+
+Now we’ve got scales, but we also want to selective exclude bits so we can add details like straps. To do this, we’ll need to find some way to indicate what to exclude. For this, you’ll want to use geometry nodes. I created a second mesh and broke it down to a line that I extruded around to where I needed with a shrinkwrap modifier and some surface snapping. It was pretty fiddly and took a while, but was straightforward enough. This was the lines I wanted to “remove” from the scales. ![](/api/attachments.redirect?id=89aad195-64f8-43f6-8e09-98eb768a4352 " =714x")
+
+Once you get this, you’ll probably want to subdivide it to make it smoother. Really just make sure the curves are all smooth. Once you do that, you can add a subdivision modifier and geometry node to your pattern mesh. Subdivide like 4 times, or whatever you think is appropriate, and put the geometry nodes after it (below).
+
+Then, open the geometry nodes and make an output node for the distance to the nearest edge of the line mesh like so:
+
+ ![](/api/attachments.redirect?id=5d76afbd-2b27-4dc7-ba18-9c0418b49376)
+
+Remember to name the output attribute in your geometry node modifier or it won’t work:
+
+ ![](/api/attachments.redirect?id=dd6e9a8f-88be-48ef-af83-74bea12feebb)
+
+You’ll know if it worked because you’ll see the value in your mesh details:
+
+ ![](/api/attachments.redirect?id=e86ac62b-c3c1-4758-bb39-c960c91e4ba1)
+
+Ok, so now you’ve got a value that tells you how close a vertex is to the line we want to exclude, we can use this. Go back to your materials, and use the node group like so:
+
+ ![](/api/attachments.redirect?id=7596fcfd-c319-4861-9f06-bfc7304493a2)
+
+There isn’t too much to this so I won’t dive in too deep, main detail is the attribute node, which takes that name we entered in the geometry node modifier. This will input the value for a given vertex/point and feed it into the material, we can then just only mix in the actual shader when it is not close to the line. This gives us our nice exclusion effect.
+
+If it doesn’t work, fiddle with these buttons next to your modifiers until it works:
+
+ ![](/api/attachments.redirect?id=ba26100d-91ac-4c75-ae3f-a401eb5372aa)
+
+Do this on both the edge mesh, and the actual part.
+
+Also you’ll probably want to apply your edge subdivison at some point, leave it as a modifier on the part mesh though.
+
+Now that you’ve done that, you’ll need to set up UVs. Since this is going straight back into 3d software, it doesn’t really matter, just unwrap directly into any UV that doesn’t overlap itself.
+
+Then add an image in the UV editor and make it high enough resolution that you could print it (you basically will).
+
+Then add an image texture into the material you’ve used, don’t connect it to anything, and set it to use that image as its texture. Then bake the image by pressing the bake button in the render menu, you’ll need to be using cycles for that to work. Fiddle with settings until you get the desired result. Google is your friend here.
+
+Once you’ve baked, you should have a texture image like this, save it to your disk somewhere:
+
+ ![](/api/attachments.redirect?id=ce1e6d99-723a-4b0a-b85e-1d417c29945c)
+
+Then, turn off your mesh’s subdivision modifier, and re-export the mesh with the UVs included. Pepakura will use this information in the mesh file. I know it works with .obj files so if in doubt just use that.
+
+Then, open pepakura as usual, and before you unfold, go to the texture menu and add the image as a texture image.
+
+This should let pepakura show the textures as they appeared in blender:
+
+ ![](/api/attachments.redirect?id=aa302775-f047-4450-9ba2-5019675ea760)
+
+Then, just export the SVG and textures, you’ll probably need to do this separately, but you can hide the lines like I have if you go into your pepakura settings, and export them separately.
+
+Then just open your editor of choice (mine is affinity designer) and piece everything back together, add the image in, clean up the shapes so they’re ready to cut, close the lines, and prep for your laser cutter’s specifications (e.g. set cut lines to red or whatever).
+
+After that, it should work. This is as far as I’ve gotten and I’m waiting for the trotec machine at my makerspace to get moved to a different location with external ventilation so I don’t destroy the poor HEPA filter it has now, but it’ll probably work I think.
+
+ ![](/api/attachments.redirect?id=062ef5c7-09ba-450f-bd7c-9b2f483565c7)
+
+And… that’s about it. It’s a simple method once you get the hang of it, and should save a lot of time in the long run.
+
+Hope this helped, and maybe gave you some ideas for your own project!
+
+

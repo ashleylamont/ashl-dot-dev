@@ -1,0 +1,56 @@
+---
+import {getCollection} from "astro:content";
+
+const allExperience = await getCollection("experience");
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+---
+<p>
+  I've had the amazing opportunity to work in a handful of awesome
+  places, and take part in some really cool projects. Here's a few
+  highlights:
+</p>
+{
+    allExperience.map((experience) => (
+    <p>
+      I've{" "}
+      {
+        {
+          volunteer: "volunteered",
+          work: "worked",
+          education: "studied",
+        }[experience.data.type]
+      }{" "}
+      at <span class="accent">{experience.data.where}</span> as{" "}
+      {experience.data.whatArticle}{" "}
+      <span class="accent">{experience.data.what}</span> from{" "}
+      <span class="accent">
+                {months[experience.data.whenStart.getMonth()]}{" "}
+        {experience.data.whenStart.getFullYear()}
+              </span>
+      {experience.data.whenEnd && (
+          <>
+            {" "}
+            to{" "}
+            <span class="accent">
+                    {months[experience.data.whenEnd.getMonth()]}{" "}
+              {experience.data.whenEnd.getFullYear()}
+                  </span>
+          </>
+      )}
+      . <br/><small><a href=`/experience/${experience.slug}`>Read more...</a></small>
+    </p>
+        ))
+    }

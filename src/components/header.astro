@@ -1,0 +1,12 @@
+---
+import '@fontsource/permanent-marker';
+import {getCollection} from 'astro:content';
+
+const links = await getCollection('nav');
+---
+
+<nav>
+  {links.map((link) =>
+      <a href={link.data.path}>{link.data.title}</a>
+  )}
+</nav>

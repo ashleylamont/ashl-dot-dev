@@ -1,0 +1,4 @@
+title: Blog
+path: /posts
+order: 2
+match: prefix

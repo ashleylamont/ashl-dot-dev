@@ -10,8 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.4",
-    "astro": "^4.1.1",
-    "typescript": "^5.3.3"
+    "@astrojs/check": "^0.5.9",
+    "@astrojs/mdx": "^2.2.0",
+    "@fontsource/arvo": "latest",
+    "@fontsource/coming-soon": "latest",
+    "@fontsource/rokkitt": "latest",
+    "astro": "^4.5.4",
+    "pixi.js": "^8.0.2",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "typescript": "^5.4.2"
   }
 }

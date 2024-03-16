@@ -1,27 +1,100 @@
 ---
-const {title} = Astro.props;
-import {getCollection} from 'astro:content';
-
-const links = await getCollection('nav');
+import "@fontsource/rokkitt/400.css";
+import "@fontsource/rokkitt/700.css";
+import Footer from "../components/footer.astro";
+const { title } = Astro.props;
 ---
+
 <html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-  <meta name="viewport" content="width=device-width"/>
-  <meta name="generator" content={Astro.generator}/>
-  <title>{title}</title>
-</head>
-<body>
-<nav>
-  {links.map((link) =>
-      <a href={link.data.path}>{link.data.title}</a>
-  )}
-</nav>
-<h1>{title}</h1>
-<article>
-  <slot/> <!-- your content is injected here -->
-</article>
-<Footer/>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style is:global>
+      :root {
+        font-size: 1.1rem;
+      }
+
+      * {
+        font-family: "Rokkitt", monospace;
+      }
+
+      body {
+        background-color: #242432;
+        color: #d5cabd;
+        margin: 0;
+        position: relative;
+        left: 0;
+        top: 0;
+        & > div {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 30px;
+          & > div:first-child {
+            padding: 20px;
+          }
+          & > * {
+            flex-shrink: 1;
+          }
+        }
+      }
+
+      a {
+        color: #f3beeb;
+        text-decoration-style: dashed;
+
+        &:hover {
+          text-decoration-style: solid;
+        }
+      }
+
+      .accent {
+        color: #e987e0;
+      }
+
+      @property --accent {
+        syntax: "<color>";
+        inherits: false;
+        initial-value: #e987e0;
+      }
+
+      article.main {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        & > * {
+          max-width: 600px;
+          &.wide {
+            max-width: 1100px;
+          }
+        }
+      }
+
+      .tags {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5em;
+      }
+      .tag {
+        background-color: var(--accent);
+        padding: 2px 5px;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div>
+        <slot />
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  </body>
 </html>

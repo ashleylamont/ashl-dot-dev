@@ -1,2 +1,4 @@
 title: Home
 path: /
+order: 1
+match: exact

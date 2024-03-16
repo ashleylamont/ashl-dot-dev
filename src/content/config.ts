@@ -1,0 +1,44 @@
+import { z, defineCollection } from "astro:content";
+const postCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishedDate: z.string().transform((str) => new Date(str)),
+    tags: z.array(z.string()),
+    thumbnail: z.string().optional(),
+  }),
+});
+const navCollection = defineCollection({
+  type: "data",
+  schema: z.object({
+    title: z.string(),
+    path: z.string(),
+    order: z.number(),
+    match: z.union([z.literal("exact"), z.literal("prefix")]),
+  }),
+});
+const experienceCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    type: z.union([
+      z.literal("work"),
+      z.literal("education"),
+      z.literal("volunteer"),
+    ]),
+    where: z.string(),
+    what: z.string(),
+    whatArticle: z.string(),
+    whenStart: z.string().transform((str) => new Date(str)),
+    whenEnd: z
+      .string()
+      .transform((str) => new Date(str))
+      .optional(),
+  }),
+});
+
+export const collections = {
+  posts: postCollection,
+  nav: navCollection,
+  experience: experienceCollection,
+};

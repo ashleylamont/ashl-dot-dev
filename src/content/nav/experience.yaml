@@ -1,4 +1,4 @@
-title: Blog
-path: /posts
-order: 2
+title: Stuff I did
+path: /experience
+order: 3
 match: prefix

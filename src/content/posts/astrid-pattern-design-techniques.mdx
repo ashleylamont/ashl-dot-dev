@@ -1,8 +1,9 @@
 ---
 title: "Astrid Design Pattern Techniques"
+description: "Using blender and procedural design to recreate pieces of Astrid's dragon scale armour from How to Train Your Dragon in real life."
 slug: "astrid"
-publishedDate: "2024-06-01"
-tags: ["cosplay", "design"]
+publishedDate: "1/6/24"
+tags: ["cosplay", "design", "iusedlaserstomakethis"]
 thumbnail: "/path/to/thumbnail.jpg"
 ---
 
@@ -10,7 +11,7 @@ Alright famski so you wanna make patterns for Astrid yeah?
 
 Ok step one, make the patterns as a mesh in blender? don’t know how to do that, then step 1a is learn blender, step 1b is to then make the meshes in blender.
 
- ![Look it's a mesh](/api/attachments.redirect?id=7bde1090-1ecb-4f27-b289-dfdab529e204)
+![Look it's a mesh](/api/attachments.redirect?id=7bde1090-1ecb-4f27-b289-dfdab529e204)
 
 Highly recommend lining up source material with the axes so that you can lock to an orthographic perspective to get shapes and whatnot right
 
@@ -30,7 +31,7 @@ Anyways, now you’ve downloaded Pepakura, and opened it. Again following Kamui�
 
 Ok now you’ve imported into pepakura, you’ve probably got something like the following:
 
- ![](/api/attachments.redirect?id=d977514d-a964-4218-bc14-607128d05f3f)
+![](/api/attachments.redirect?id=d977514d-a964-4218-bc14-607128d05f3f)
 
 Note, you probably won’t have the orange lines yet.
 
@@ -40,7 +41,7 @@ If you want to just have an unfolded mesh, hit unfold in the top menu and it’l
 
 You’ll get much better results if you manually set cut lines, especially on curved pieces. You can use the subdivide edges and make them smooth button for this.
 
- ![](/api/attachments.redirect?id=9a7f2ae3-644e-4174-8aea-9dd3373e5b32)
+![](/api/attachments.redirect?id=9a7f2ae3-644e-4174-8aea-9dd3373e5b32)
 
 With this, click on the edges in the model where it curves the most from one side to the other (i.e. the edge is raised or at an angle). Once you think you’ve got nice edges picked, unfold and see what it looks like.
 
@@ -53,7 +54,6 @@ If you’re just using a regular printer (the sort that you’d print word docs 
 If you’re using a laser cutter or other CNC plotting device, SVG will probably be the way to go.
 
 And that’ll get you some basic patterns. Practising this method and playing around with pepakura will help make your unfolds much easier to work with once you get to your actual materials, and having a 3d scan of yourself in blender will help immensely with scale, otherwise there isn’t really too much to say of it all. It’s a relatively simple process, once you get used to blender and pepakura.
-
 
 For actually printing the patterns onto a physical material, you’ve got a bunch of options. Pepakura can split patterns across pages so if you’ve only got your local uni or library printer, that’s an option, but it kinda sucks ass.
 
@@ -71,11 +71,11 @@ So, this is only really going to be useful info for the scales, but I guess if y
 
 Anyways, the eventual goal is to have auto-generated scales that can look something like this:
 
- ![](/api/attachments.redirect?id=9772929b-d9ec-4ed0-a085-3fda1ba9df23 " =499x485")
+![](/api/attachments.redirect?id=9772929b-d9ec-4ed0-a085-3fda1ba9df23 " =499x485")
 
 But of course, it also needs to be laser-cut and lasers just need a grey-scale “burn here if it’s coloured darker” image, so having an alternate mode for that is handy, e.g.
 
- ![](/api/attachments.redirect?id=633d47d2-e7ff-47a8-a245-a64d670f430c " =499x410")
+![](/api/attachments.redirect?id=633d47d2-e7ff-47a8-a245-a64d670f430c " =499x410")
 
 You’ve probably gathered by now that both of those are screenshots from blender, so it can definitely be done.
 
@@ -87,11 +87,11 @@ That trick should get us what is essentially a “is this a scale or a bit betwe
 
 You can then do some stuff to make the shader look nicer, the laser cutter only really needs a black and white diffuse BSDF shader, but for the “as it would look once made” shader, you can be a bit more creative. I’ve gone with something simple, just two principled BSDF shaders with the scales a bit shinier, and with a little bit of a noise texture going into the base scale colour, along with a bump mix based on whether it’s a scale or not. End product looks nice for something so simple.
 
- ![](/api/attachments.redirect?id=af4b9c74-7066-4e7d-9172-e5141d8b56ad)
+![](/api/attachments.redirect?id=af4b9c74-7066-4e7d-9172-e5141d8b56ad)
 
 I cooked those nodes into a node group, so I could reuse it, here it is if you want to copy it or whatever:
 
- ![](/api/attachments.redirect?id=f37f2efa-b2ff-4728-8a40-cb5140dce702)
+![](/api/attachments.redirect?id=f37f2efa-b2ff-4728-8a40-cb5140dce702)
 
 Now we’ve got scales, but we also want to selective exclude bits so we can add details like straps. To do this, we’ll need to find some way to indicate what to exclude. For this, you’ll want to use geometry nodes. I created a second mesh and broke it down to a line that I extruded around to where I needed with a shrinkwrap modifier and some surface snapping. It was pretty fiddly and took a while, but was straightforward enough. This was the lines I wanted to “remove” from the scales. ![](/api/attachments.redirect?id=89aad195-64f8-43f6-8e09-98eb768a4352 " =714x")
 
@@ -99,25 +99,25 @@ Once you get this, you’ll probably want to subdivide it to make it smoother. R
 
 Then, open the geometry nodes and make an output node for the distance to the nearest edge of the line mesh like so:
 
- ![](/api/attachments.redirect?id=5d76afbd-2b27-4dc7-ba18-9c0418b49376)
+![](/api/attachments.redirect?id=5d76afbd-2b27-4dc7-ba18-9c0418b49376)
 
 Remember to name the output attribute in your geometry node modifier or it won’t work:
 
- ![](/api/attachments.redirect?id=dd6e9a8f-88be-48ef-af83-74bea12feebb)
+![](/api/attachments.redirect?id=dd6e9a8f-88be-48ef-af83-74bea12feebb)
 
 You’ll know if it worked because you’ll see the value in your mesh details:
 
- ![](/api/attachments.redirect?id=e86ac62b-c3c1-4758-bb39-c960c91e4ba1)
+![](/api/attachments.redirect?id=e86ac62b-c3c1-4758-bb39-c960c91e4ba1)
 
 Ok, so now you’ve got a value that tells you how close a vertex is to the line we want to exclude, we can use this. Go back to your materials, and use the node group like so:
 
- ![](/api/attachments.redirect?id=7596fcfd-c319-4861-9f06-bfc7304493a2)
+![](/api/attachments.redirect?id=7596fcfd-c319-4861-9f06-bfc7304493a2)
 
 There isn’t too much to this so I won’t dive in too deep, main detail is the attribute node, which takes that name we entered in the geometry node modifier. This will input the value for a given vertex/point and feed it into the material, we can then just only mix in the actual shader when it is not close to the line. This gives us our nice exclusion effect.
 
 If it doesn’t work, fiddle with these buttons next to your modifiers until it works:
 
- ![](/api/attachments.redirect?id=ba26100d-91ac-4c75-ae3f-a401eb5372aa)
+![](/api/attachments.redirect?id=ba26100d-91ac-4c75-ae3f-a401eb5372aa)
 
 Do this on both the edge mesh, and the actual part.
 
@@ -131,7 +131,7 @@ Then add an image texture into the material you’ve used, don’t connect it to
 
 Once you’ve baked, you should have a texture image like this, save it to your disk somewhere:
 
- ![](/api/attachments.redirect?id=ce1e6d99-723a-4b0a-b85e-1d417c29945c)
+![](/api/attachments.redirect?id=ce1e6d99-723a-4b0a-b85e-1d417c29945c)
 
 Then, turn off your mesh’s subdivision modifier, and re-export the mesh with the UVs included. Pepakura will use this information in the mesh file. I know it works with .obj files so if in doubt just use that.
 
@@ -139,7 +139,7 @@ Then, open pepakura as usual, and before you unfold, go to the texture menu and 
 
 This should let pepakura show the textures as they appeared in blender:
 
- ![](/api/attachments.redirect?id=aa302775-f047-4450-9ba2-5019675ea760)
+![](/api/attachments.redirect?id=aa302775-f047-4450-9ba2-5019675ea760)
 
 Then, just export the SVG and textures, you’ll probably need to do this separately, but you can hide the lines like I have if you go into your pepakura settings, and export them separately.
 
@@ -147,10 +147,8 @@ Then just open your editor of choice (mine is affinity designer) and piece every
 
 After that, it should work. This is as far as I’ve gotten and I’m waiting for the trotec machine at my makerspace to get moved to a different location with external ventilation so I don’t destroy the poor HEPA filter it has now, but it’ll probably work I think.
 
- ![](/api/attachments.redirect?id=062ef5c7-09ba-450f-bd7c-9b2f483565c7)
+![](/api/attachments.redirect?id=062ef5c7-09ba-450f-bd7c-9b2f483565c7)
 
 And… that’s about it. It’s a simple method once you get the hang of it, and should save a lot of time in the long run.
 
 Hope this helped, and maybe gave you some ideas for your own project!
-
-

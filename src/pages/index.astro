@@ -1,16 +1,107 @@
 ---
-
+import Main from "../layouts/main.astro";
+import ExperienceContent from "../components/experienceContent.astro";
+import BlogContent from "../components/blogContent.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Main title="Home">
+  <div class="container">
+    <p>
+      <em>
+        The internet has many strange and wonderful corners, but this one is
+        mine 🦄✨
+      </em>
+    </p>
+    <hr />
+    <h1>
+      Hi, I'm <b class="accent">Ashley</b>! 👋
+    </h1>
+    <p>
+      I'm many things, but mostly, I'm a massive nerd who likes to make stuff.
+    </p>
+    <hr />
+  </div>
+  <div class="container wide">
+    <div class="triple-section">
+      <div>
+        <h2>Stuff I did</h2>
+        <ExperienceContent />
+      </div>
+      <div>
+        <h2>Stuff I am</h2>
+        <p>
+          Hi there (again)! I'm Ashley, a twenty-something year old nerd from
+          the land down under. I'm a software engineer by trade, but I like to
+          work with all kinds of interesting projects.
+        </p>
+        <p>
+          In my spare time, you'll catch me dabbling with crafty things and
+          cosplay, playing <a href="https://factorio.com">Factorio</a> and <a
+            href="https://www.paradoxinteractive.com/games/cities-skylines-ii/about"
+            >Cities Skylines</a
+          >, writing code for projects I'll never finish, or just hanging out
+          with my friends.
+        </p>
+        <p>
+          I also study computing at the <a href="https://anu.edu.au"
+            >Australian National University</a
+          >, and spend a lot of time hanging out with the awesome folks over at
+          the <a href="https://cssa.club">ANU CSSA</a>.
+        </p>
+        <div>
+          I'm also a massive nerd in the other sense of the word, I'm a big fan
+          of a ton of different things, everything from How to Train Your Dragon
+          to She-Ra<span class="accent">*</span>, and if you let me, I'll
+          probably spend hours geeking out to you about them.
+          <div style="margin-bottom: 0.5rem;"></div>
+          <small style="width: 100%">
+            <span class="accent">*</span> Yes, I'm a lesbian, how did you guess?
+          </small>
+        </div>
+      </div>
+      <div>
+        <h2>Stuff I wrote</h2>
+        <BlogContent />
+      </div>
+    </div>
+  </div>
+</Main>
+<style>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 50%;
+    border: 1px solid var(--accent);
+  }
+  .triple-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    width: calc(100% - 4rem);
+    & > * {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      flex-direction: column;
+      text-align: justify;
+      & > :first-child {
+        border-bottom: 1px solid var(--accent);
+        width: 100%;
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+    }
+  }
+  ul,
+  li {
+    text-align: left;
+  }
+</style>

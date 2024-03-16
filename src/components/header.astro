@@ -1,12 +1,60 @@
 ---
-import '@fontsource/permanent-marker';
-import {getCollection} from 'astro:content';
+import "@fontsource/coming-soon";
+import { getCollection } from "astro:content";
 
-const links = await getCollection('nav');
+const links = await getCollection("nav");
+
+function isCurrentRoute(link: (typeof links)[0]) {
+  if (link.data.match === "exact") {
+    return link.data.path === Astro.url.pathname;
+  } else {
+    return Astro.url.pathname.startsWith(link.data.path);
+  }
+}
 ---
 
-<nav>
-  {links.map((link) =>
-      <a href={link.data.path}>{link.data.title}</a>
-  )}
-</nav>
+<style>
+  h1,
+  abbr {
+    font-family: "Coming Soon", cursive;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  a {
+    font-size: 1.3rem;
+  }
+</style>
+<div>
+  <h1>
+    <abbr title="A funky little corner of the internet that I call home"
+      >Ashley's corner</abbr
+    >
+  </h1>
+  <nav>
+    {
+      links
+        .sort((a, b) => a.data.order - b.data.order)
+        .map((link) =>
+          isCurrentRoute(link) ? (
+            <strong>
+              <a href={link.data.path}>{link.data.title}</a>
+            </strong>
+          ) : (
+            <a href={link.data.path}>{link.data.title}</a>
+          ),
+        )
+    }
+  </nav>
+</div>

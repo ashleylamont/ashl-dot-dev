@@ -1,3 +1,16 @@
 ---
-$END$
+import BaseLayout from "./base.astro";
+import Header from "../components/header.astro";
+import Conway from "../components/conway.astro";
+const { title } = Astro.props;
 ---
+
+<BaseLayout title={title}>
+  <Header />
+  <article class="main">
+    <slot />
+    <!-- your content is injected here -->
+  </article>
+  <!--<br />-->
+  <!--<Conway />-->
+</BaseLayout>

@@ -1,2 +1,4 @@
-title: Home
-path: /
+title: Stuff I wrote
+path: /posts
+order: 2
+match: prefix

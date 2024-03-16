@@ -1,3 +1,156 @@
 ---
-$END$
+
 ---
+
+<div id="cgol-container">
+  <div id="cgol"></div>
+</div>
+<script>
+  import { Application, Graphics } from "pixi.js";
+  import Grid from "../scripts/grid";
+
+  const grid = new Grid<true>();
+
+  const bgColour = "#242432";
+  const bgAlternateColour = "#21212e";
+
+  const app = new Application();
+  await app.init();
+  document.getElementById("cgol")?.appendChild(app.canvas);
+
+  app.resizeTo = document.body;
+  app.resize();
+
+  function setBackgroundSize() {
+    app.resize();
+  }
+
+  const observer = new ResizeObserver(setBackgroundSize);
+  observer.observe(document.body);
+  setBackgroundSize();
+
+  const backgroundGraphics = new Graphics();
+  backgroundGraphics
+    .rect(0, 0, app.renderer.width, app.renderer.height)
+    .fill(bgColour);
+  app.stage.addChild(backgroundGraphics);
+
+  const cellGraphics = new Graphics();
+  app.stage.addChild(cellGraphics);
+
+  const cellSize = 20;
+  let gridWidth = Math.floor(app.stage.width / cellSize);
+  let gridHeight = Math.floor(app.stage.height / cellSize);
+  function reset() {
+    gridWidth = Math.floor(app.stage.width / cellSize);
+    gridHeight = Math.floor(app.stage.height / cellSize);
+
+    grid.clear();
+    for (let x = 0; x < gridWidth; x++) {
+      for (let y = 0; y < gridHeight; y++) {
+        if (Math.random() > 0.67) {
+          grid.set(x, y, true);
+        }
+      }
+    }
+  }
+
+  reset();
+
+  let stepCount = 0;
+  let lastState = "";
+
+  function step() {
+    const cellsToDelete: { x: number; y: number }[] = [];
+    const cellsToAdd: { x: number; y: number }[] = [];
+
+    function getAdjacentTiles(x: number, y: number) {
+      let adjacentTiles: number = 0;
+      for (let xOffset = -1; xOffset <= 1; xOffset++) {
+        for (let yOffset = -1; yOffset <= 1; yOffset++) {
+          if (
+            xOffset !== 0 &&
+            yOffset !== 0 &&
+            grid.get(x + xOffset, y + yOffset) !== undefined
+          ) {
+            adjacentTiles += 1;
+          }
+        }
+      }
+      return adjacentTiles;
+    }
+
+    for (const { x, y } of grid) {
+      const adjacentTiles = getAdjacentTiles(x, y);
+      // Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+      if (adjacentTiles < 2) {
+        cellsToDelete.push({ x, y });
+      }
+      // Any live cell with two or three live neighbors lives on to the next generation.
+      else if (adjacentTiles < 4) {
+        // Do nothing
+      }
+      // Any live cell with more than three live neighbors dies, as if by overpopulation.
+      else {
+        cellsToDelete.push({ x, y });
+      }
+    }
+    // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+    for (let x = -5; x < gridWidth + 5; x++) {
+      for (let y = -5; y < gridHeight + 5; y++) {
+        if (grid.get(x, y) !== undefined) continue;
+
+        const adjacentTiles = getAdjacentTiles(x, y);
+        if (adjacentTiles === 3) {
+          cellsToAdd.push({ x, y });
+        }
+      }
+    }
+    // Update
+    for (const { x, y } of cellsToDelete) {
+      grid.delete(x, y);
+    }
+    for (const { x, y } of cellsToAdd) {
+      grid.set(x, y, true);
+    }
+    stepCount += 1;
+    const state = grid.serialised;
+    if (stepCount > 30 || lastState === state) {
+      reset();
+      stepCount = 0;
+    }
+    lastState = state;
+  }
+
+  requestAnimationFrame(animate);
+
+  function animate() {
+    backgroundGraphics
+      .rect(0, 0, app.renderer.width, app.renderer.height)
+      .fill(bgColour);
+    cellGraphics.clear();
+    for (const { x, y } of grid) {
+      cellGraphics
+        .rect(x * cellSize, y * cellSize, cellSize, cellSize)
+        .fill(bgAlternateColour);
+    }
+    // app.renderer.render(app.stage);
+    step();
+    window.setTimeout(() => requestAnimationFrame(animate), 500);
+  }
+</script>
+<style>
+  #cgol-container {
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1000;
+    overflow: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #cgol {
+      display: none;
+    }
+  }
+</style>

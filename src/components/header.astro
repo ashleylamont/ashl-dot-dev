@@ -1,6 +1,7 @@
 ---
 import "@fontsource/coming-soon";
-import { getCollection } from "astro:content";
+import {Icon} from 'astro-icon/components';
+import {getCollection} from "astro:content";
 
 const links = await getCollection("nav");
 
@@ -19,7 +20,7 @@ function isCurrentRoute(link: (typeof links)[0]) {
     font-family: "Coming Soon", cursive;
   }
 
-  div {
+  header {
     display: flex;
     flex-direction: row;
     gap: 40px;
@@ -35,26 +36,128 @@ function isCurrentRoute(link: (typeof links)[0]) {
   a {
     font-size: 1.3rem;
   }
+
+  @media (max-width: 767px) {
+    header {
+      justify-content: space-between;
+    }
+  }
+
+  .menu-button {
+    position: relative;
+    font-size: 2em;
+
+    & > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 0.3s;
+    }
+  }
+
+  label:has(.menu-button) {
+    height: 2em;
+    cursor: pointer;
+  }
+
+  input:checked ~ label {
+    & .open-button {
+      opacity: 0;
+    }
+  }
+
+  input:not(:checked) ~ label {
+    & .close-button {
+      opacity: 0;
+    }
+  }
+
+  label, h1 {
+    z-index: 20;
+  }
+
+  .popover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 10;
+    padding-top: 120px;
+  }
+
+  input:checked ~ .popover {
+    opacity: 1;
+  }
+
+  input:checked ~ * {
+    color: var(--background);
+    transition: color 0.3s;
+    transition-delay: 0.1s;
+  }
+
+  input:not(:checked) ~ .popover {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .popover nav {
+    flex-direction: column;
+    align-items: end;
+    padding-right: 20px;
+    padding-top: 40px;
+    & a {
+      color: var(--background);
+      font-size: 20pt;
+    }
+  }
 </style>
-<div>
-  <h1>
-    <abbr title="A funky little corner of the internet that I call home"
-      >Ashley's corner</abbr
-    >
-  </h1>
-  <nav>
-    {
-      links
+<header>
+  <input style="display: none" type="checkbox" id="menu-toggle" class="mobile-only"/>
+  <label for="menu-toggle" class="mobile-only">
+    <div class="menu-button">
+      <Icon name="uil:bars" class="open-button"/>
+      <Icon name="uil:times" class="close-button"/>
+    </div>
+  </label>
+  <div class="popover mobile-only">
+    <nav>
+      {
+        links
         .sort((a, b) => a.data.order - b.data.order)
         .map((link) =>
-          isCurrentRoute(link) ? (
-            <strong>
-              <a href={link.data.path}>{link.data.title}</a>
-            </strong>
-          ) : (
-            <a href={link.data.path}>{link.data.title}</a>
-          ),
+            isCurrentRoute(link) ? (
+                <strong>
+                  <a href={link.data.path}>{link.data.title}</a>
+                </strong>
+            ) : (
+                <a href={link.data.path}>{link.data.title}</a>
+            ),
         )
+      }
+    </nav>
+  </div>
+  <h1>
+    <abbr title="A funky little corner of the internet that I call home"
+    >Ashley's corner</abbr
+    >
+  </h1>
+  <nav class="desktop-only">
+    {
+      links
+      .sort((a, b) => a.data.order - b.data.order)
+      .map((link) =>
+          isCurrentRoute(link) ? (
+              <strong>
+                <a href={link.data.path}>{link.data.title}</a>
+              </strong>
+          ) : (
+              <a href={link.data.path}>{link.data.title}</a>
+          ),
+      )
     }
   </nav>
-</div>
+</header>

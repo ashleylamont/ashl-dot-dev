@@ -45,12 +45,12 @@ const experienceSort = (
     <p>
       {experience.data.whenEnd === undefined ? (
         <>
-          I{" "}
+          I've been {" "}
           {
             {
-              volunteer: "volunteer",
-              work: "work",
-              education: "study",
+              volunteer: "volunteering",
+              work: "working",
+              education: "studying",
             }[experience.data.type]
           }
         </>
@@ -68,7 +68,9 @@ const experienceSort = (
       )}{" "}
       at <span class="accent">{experience.data.where}</span> as{" "}
       {experience.data.whatArticle}{" "}
-      <span class="accent">{experience.data.what}</span> from{" "}
+      <span class="accent">{experience.data.what}</span> {
+        experience.data.whenEnd === undefined ? ' since' : ' from'
+    }{" "}
       <span class="accent">
         {months[experience.data.whenStart.getMonth()]}{" "}
         {experience.data.whenStart.getFullYear()}
@@ -84,12 +86,6 @@ const experienceSort = (
         </>
       )}
       .{" "}
-      <>
-        <br />
-        <small>
-          <a href={`/experience/${experience.slug}`}>Read more...</a>
-        </small>
-      </>
     </p>
   ))
 }

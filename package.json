@@ -12,10 +12,13 @@
   "dependencies": {
     "@astrojs/check": "^0.5.9",
     "@astrojs/mdx": "^2.2.0",
+    "@astrojs/node": "^8.3.2",
     "@fontsource/arvo": "latest",
     "@fontsource/coming-soon": "latest",
     "@fontsource/rokkitt": "latest",
+    "@iconify-json/uil": "^1.1.8",
     "astro": "^4.5.4",
+    "astro-icon": "^1.1.0",
     "pixi.js": "^8.0.2",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",

@@ -1,4 +1,6 @@
 import { z, defineCollection } from "astro:content";
+import type {AnyZodObject} from 'astro/zod';
+
 const postCollection = defineCollection({
   type: "content",
   schema: z.object({
@@ -16,10 +18,10 @@ const navCollection = defineCollection({
     path: z.string(),
     order: z.number(),
     match: z.union([z.literal("exact"), z.literal("prefix")]),
-  }),
+  })
 });
 const experienceCollection = defineCollection({
-  type: "content",
+  type: "data",
   schema: z.object({
     type: z.union([
       z.literal("work"),
@@ -37,8 +39,19 @@ const experienceCollection = defineCollection({
   }),
 });
 
+const linksCollection = defineCollection({
+  type: "data",
+  schema: z.object({
+    title: z.string(),
+    url: z.string(),
+    site: z.string(),
+    tags: z.array(z.string()),
+  }),
+});
+
 export const collections = {
   posts: postCollection,
   nav: navCollection,
   experience: experienceCollection,
+  links: linksCollection,
 };

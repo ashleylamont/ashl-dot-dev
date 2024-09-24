@@ -19,6 +19,8 @@
     "@iconify-json/uil": "^1.1.8",
     "astro": "^4.5.4",
     "astro-icon": "^1.1.0",
+    "mdast-util-to-hast": "^13.2.0",
+    "micromark-util-sanitize-uri": "^2.0.0",
     "pixi.js": "^8.0.2",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",

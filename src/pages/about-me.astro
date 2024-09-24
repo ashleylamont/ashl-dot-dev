@@ -89,119 +89,141 @@ const mostPlayedGames = mostPlayedSteamResponse.response.games.map((game) => {
 });
 
 const socialLinks = (await getCollection("links"));
+
+function getTagUrl(tag) {
+  const url = new URL(Astro.url.toString().split("?")[0].split("#")[0]);
+  url.searchParams.set("tag", tag);
+  return url.toString() + "#socials";
+}
+
+const currentTag = new URL(Astro.url).searchParams.get("tag");
+
+const filteredSocials = socialLinks.filter((link) => {
+  return currentTag === null || link.data.tags.includes(currentTag);
+});
 ---
 <Main>
-  <h1>About me</h1>
-  <p>
-    Hi there (again)! I'm Ashley, a twenty-something year old nerd with ADHD
-    from the land down under. I'm a software engineer by trade, but I like to
-    work with all kinds of interesting projects.
-  </p>
-  <p>
-    In my spare time, you'll catch me dabbling with crafty things and
-    cosplay, writing code for projects I'll never finish, hanging out
-    with my friends, or playing all kinds of different games.{" "}
-    {recentGames ? (
-        <>
-          I've been playing a bit of{" "}
-          {recentGames.map((game, index) => {
+    <h1>About me</h1>
+    <p>
+        Hi there (again)! I'm Ashley, a twenty-something year old nerd with ADHD
+        from the land down under. I'm a software engineer by trade, but I like to
+        work with all kinds of interesting projects.
+    </p>
+    <p>
+        In my spare time, you'll catch me dabbling with crafty things and
+        cosplay, writing code for projects I'll never finish, hanging out
+        with my friends, or playing all kinds of different games.{" "}
+      {recentGames ? (
+              <>
+                  I've been playing a bit of{" "}
+                {recentGames.map((game, index) => {
+                  return (
+                          <>
+                              <a href=`https://store.steampowered.com/app/${game.appid}`>{game.name}</a>{index === recentGames.length - 1 ? "" : (
+                                  <>,{" "}
+                                    {index === recentGames.length - 2 ? "and " : ""}
+                                  </>
+                          )}
+                          </>
+                  );
+                })}
+                  lately,
+              </>
+      ) : (
+              <>
+                  I haven't had too much time to play games lately, but
+              </>
+      )}
+        my all-time most-played are{" "}
+      {
+        mostPlayedGames?.map((game, index) => {
+          return (
+                  <>
+                      <a href=`https://store.steampowered.com/app/${game.appid}/`>{game.name}</a>{index === mostPlayedGames.length - 1 ? "" : (
+                          <>,{" "}
+                            {index === mostPlayedGames.length - 2 ? "and " : ""}
+                          </>
+                  )}
+                  </>
+          );
+        })
+      }, and there's a special place in my heart for the <a
+            href="https://store.steampowered.com/app/1265920/">Life is Strange</a> series, the <a
+            href="https://store.steampowered.com/app/1151640/">Horizon</a> series, and <a
+            href="https://www.minecraft.net/en-us">Minecraft</a>.
+    </p>
+    <p>
+        I also listen to a lot of music. Recently I've been listening to{" "}
+      {
+        spotifyRecentTopSongs.map((song, index) => {
+          return (
+                  <>
+                      <a href={song.external_urls.spotify}>{song.name}</a>{index === spotifyRecentTopSongs.length - 1 ? "" : (
+                          <>,{" "}
+                            {index === spotifyRecentTopSongs.length - 2 ? "and " : ""}
+                          </>
+                  )}
+                  </>
+          );
+        })
+      }, but over the last year, I've listened a bunch to{" "}
+      {
+        spotifyLongTermTopSongs.map((song, index) => {
+          return (
+                  <>
+                      <a href={song.external_urls.spotify}>{song.name}</a>{index === spotifyLongTermTopSongs.length - 1 ? "" : (
+                          <>,{" "}
+                            {index === spotifyLongTermTopSongs.length - 2 ? "and " : ""}
+                          </>
+                  )}
+                  </>
+          );
+        })
+      }.
+    </p>
+    <p>
+        I also study computing at the <a href="https://anu.edu.au"
+    >Australian National University</a
+    >, and spend a lot of time hanging out with the awesome folks over at
+        the <a href="https://cssa.club">ANU CSSA</a>.
+    </p>
+    <div>
+        I'm also just a massive nerd in general, I'm a big fan
+        of a ton of different things, everything from How to Train Your Dragon
+        to She-Ra<span class="accent">*</span>, and if you let me, I'll
+        probably spend hours geeking out to you about them.
+        <div style="margin-bottom: 0.5rem;"></div>
+        <small style="width: 100%">
+            <span class="accent">*</span> Yes, I'm queer, how did you guess?
+        </small>
+    </div>
+    <p>
+        In a more general sense, I have a passion for solving interesting
+        problems and creating cool things. I love to learn new things and
+        share my knowledge with others, and I'm always looking for new
+        opportunities to grow and develop my skills, and for new people to
+        meet and learn from. If you're interested in working with me, or just
+        want to chat, feel free to reach out to me on any of my socials!
+    </p>
+    <div style="width: 100%">
+        <div class="tags" id="socials">
+            Check out my socials by tag:
+          {[...new Set(socialLinks.flatMap(link => link.data.tags))].sort().map((tag) => {
             return (
-                <>
-                  <a href=`https://store.steampowered.com/app/${game.appid}`>{game.name}</a>{index === recentGames.length - 1 ? "" : (
-                    <>,{" "}
-                      {index === recentGames.length - 2 ? "and " : ""}
-                    </>
-                )}
-                </>
+                    <a href={getTagUrl(tag)} class="tag">{tag}</a>
             );
           })}
-          lately,
-        </>
-    ) : (
-        <>
-          I haven't had too much time to play games lately, but
-        </>
-    )}
-    my all-time most-played are{" "}
-    {
-      mostPlayedGames?.map((game, index) => {
-        return (
-            <>
-              <a href=`https://store.steampowered.com/app/${game.appid}/`>{game.name}</a>{index === mostPlayedGames.length - 1 ? "" : (
-                <>,{" "}
-                  {index === mostPlayedGames.length - 2 ? "and " : ""}
-                </>
-            )}
-            </>
-        );
-      })
-    }, and there's a special place in my heart for the <a
-      href="https://store.steampowered.com/app/1265920/">Life is Strange</a> series, the <a
-      href="https://store.steampowered.com/app/1151640/">Horizon</a> series, and <a
-      href="https://www.minecraft.net/en-us">Minecraft</a>.
-  </p>
-  <p>
-    I also listen to a lot of music. Recently I've been listening to{" "}
-    {
-      spotifyRecentTopSongs.map((song, index) => {
-        return (
-            <>
-              <a href={song.external_urls.spotify}>{song.name}</a>{index === spotifyRecentTopSongs.length - 1 ? "" : (
-                <>,{" "}
-                  {index === spotifyRecentTopSongs.length - 2 ? "and " : ""}
-                </>
-            )}
-            </>
-        );
-      })
-    }, but over the last year, I've listened a bunch to{" "}
-    {
-      spotifyLongTermTopSongs.map((song, index) => {
-        return (
-            <>
-              <a href={song.external_urls.spotify}>{song.name}</a>{index === spotifyLongTermTopSongs.length - 1 ? "" : (
-                <>,{" "}
-                  {index === spotifyLongTermTopSongs.length - 2 ? "and " : ""}
-                </>
-            )}
-            </>
-        );
-      })
-    }.
-  </p>
-  <p>
-    I also study computing at the <a href="https://anu.edu.au"
-  >Australian National University</a
-  >, and spend a lot of time hanging out with the awesome folks over at
-    the <a href="https://cssa.club">ANU CSSA</a>.
-  </p>
-  <div>
-    I'm also a massive nerd in the other sense of the word, I'm a big fan
-    of a ton of different things, everything from How to Train Your Dragon
-    to She-Ra<span class="accent">*</span>, and if you let me, I'll
-    probably spend hours geeking out to you about them.
-    <div style="margin-bottom: 0.5rem;"></div>
-    <small style="width: 100%">
-      <span class="accent">*</span> Yes, I'm a lesbian, how did you guess?
-    </small>
-  </div>
-  <p>
-    In a more general sense, I have a passion for solving interesting
-    problems and creating cool things. I love to learn new things and
-    share my knowledge with others, and I'm always looking for new
-    opportunities to grow and develop my skills, and for new people to
-    meet and learn from. If you're interested in working with me, or just
-    want to chat, feel free to reach out to me on any of my socials!
-  </p>
-  <ul>
-    {
-      socialLinks.map((link) => {
-        return (
-            <li>
-              <a href={link.url}>{link.name} ({link.site})</a>
-            </li>
-        );
-      })
-    }
-  </ul>
+        </div>
+        <ul>
+          {
+            filteredSocials.map((link) => {
+              return (
+                      <li>
+                          <a href={link.data.url}>{link.data.title} ({link.data.site})</a>
+                      </li>
+              );
+            })
+          }
+        </ul>
+    </div>
 </Main>

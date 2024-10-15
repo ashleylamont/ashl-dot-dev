@@ -1,5 +1,4 @@
 import { z, defineCollection } from "astro:content";
-import type {AnyZodObject} from 'astro/zod';
 
 const postCollection = defineCollection({
   type: "content",
@@ -9,6 +8,7 @@ const postCollection = defineCollection({
     publishedDate: z.string().transform((str) => new Date(str)),
     tags: z.array(z.string()),
     thumbnail: z.string().optional(),
+    published: z.oboolean().default(true),
   }),
 });
 const navCollection = defineCollection({

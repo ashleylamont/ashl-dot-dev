@@ -1,21 +1,26 @@
 ---
-import { getCollection } from "astro:content";
+import {getCollection} from "astro:content";
 import Main from "../../layouts/main.astro";
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   return posts.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
+    params: {slug: entry.slug},
+    props: {entry},
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const {entry} = Astro.props;
+const {Content} = await entry.render();
 ---
 
 <Main>
-  <div>
-    <h1>{entry.data.title}</h1>
-    <Content />
-  </div>
+    <div>
+      {
+          entry.data.published ?
+              <>
+                  <h1>{entry.data.title}</h1>
+                  <Content/>
+              </> : <h1>Post is not published yet 🥲</h1>
+      }
+    </div>
 </Main>

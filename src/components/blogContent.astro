@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import {getCollection} from "astro:content";
 
 const allPosts = await getCollection("posts");
 ---
@@ -7,30 +7,31 @@ const allPosts = await getCollection("posts");
 <div style="display:flex; flex-direction: column; gap: 2em; margin-top: 1em;">
   {
     allPosts
-      .sort(
-        (a, b) =>
-          b.data.publishedDate.getTime() - a.data.publishedDate.getTime(),
-      )
-      .map((post) => (
-        <div style="width: 100%">
-          <div>
-            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-          </div>
-          <em>
-            <small>
-              {post.data.publishedDate.toLocaleDateString("en-AU", {
-                dateStyle: "full",
-              } as Intl.DateTimeFormatOptions)}
-            </small>
-          </em>
-          <div>{post.data.description}</div>
-          <small class="tags">
-            {post.data.tags.map((tag) => (
-              <span class="tag">#{tag}</span>
-            ))}
-          </small>
-        </div>
-      ))
+        .filter((post) => post.data.published === true)
+        .sort(
+            (a, b) =>
+                b.data.publishedDate.getTime() - a.data.publishedDate.getTime(),
+        )
+        .map((post) => (
+                <div style="width: 100%">
+                    <div>
+                        <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+                    </div>
+                    <em>
+                        <small>
+                          {post.data.publishedDate.toLocaleDateString("en-AU", {
+                            dateStyle: "full",
+                          } as Intl.DateTimeFormatOptions)}
+                        </small>
+                    </em>
+                    <div>{post.data.description}</div>
+                    <small class="tags">
+                      {post.data.tags.map((tag) => (
+                              <span class="tag">#{tag}</span>
+                      ))}
+                    </small>
+                </div>
+        ))
   }
 </div>
 <style></style>

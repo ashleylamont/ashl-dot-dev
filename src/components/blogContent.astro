@@ -33,5 +33,8 @@ const allPosts = await getCollection("posts");
                 </div>
         ))
   }
+  {allPosts
+          .filter((post) => post.data.published === true).length === 0 &&
+          <p>Looks like I haven't published anything yet! Come back later ;)</p>}
 </div>
 <style></style>

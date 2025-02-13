@@ -194,7 +194,7 @@ export default defineConfig({
   image: {
     service: passthroughImageService()
   },
-  output: "hybrid",
+  output: "static",
   adapter: node({
     mode: "standalone"
   }),

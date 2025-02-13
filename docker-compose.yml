@@ -1,5 +1,6 @@
 services:
   astro-app:
+    pull_policy: build
     build:
       context: .
       dockerfile: Dockerfile

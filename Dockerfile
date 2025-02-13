@@ -27,4 +27,5 @@ EXPOSE 4321
 
 # Start the server bundle with Bun.
 # Adjust the path if your adapter outputs a different entry file.
-CMD ["sh", "-c", "HOST=:: PORT=4321 bun ./dist/server/entry.mjs"]
+#CMD ["sh", "-c", "HOST=:: PORT=4321 bun ./dist/server/entry.mjs"]
+CMD ["echo", "test"]

@@ -17,9 +17,8 @@ RUN bun run build
 
 # Stage 2: Create a .env file for Astro
 FROM oven/bun:latest AS envfile
-WORKDIR /app
 
-CMD ["sh", "-c", "printenv > /app/.env"]
+CMD ["sh", "-c", "printenv > /envfile"]
 
 # Stage 3: Run the built server bundle using Bun
 FROM oven/bun:latest AS runner
@@ -27,7 +26,7 @@ WORKDIR /app
 
 # Copy the built output from the builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=envfile /app/.env ./.env
+COPY --from=envfile /envfile ./.env
 
 # Expose the port that your Astro app listens on (default 4321)
 EXPOSE 4321

@@ -15,12 +15,26 @@ COPY . .
 # This should produce a server bundle (e.g. in the "dist" directory)
 RUN bun run build
 
-# Stage 2: Run the built server bundle using Bun
+# Stage 2: Create a .env file for Astro
+FROM oven/bun:latest AS envfile
+WORKDIR /app
+
+CMD ["sh", "-c", "printenv > /app/.env"]
+
+# Copy the rest of your application code
+COPY . .
+
+# Build the Astro app (using the @astro/node adapter)
+# This should produce a server bundle (e.g. in the "dist" directory)
+RUN bun run build
+
+# Stage 3: Run the built server bundle using Bun
 FROM oven/bun:latest AS runner
 WORKDIR /app
 
 # Copy the built output from the builder stage
 COPY --from=builder /app/dist ./dist
+COPY --from=envfile /app/.env ./.env
 
 # Expose the port that your Astro app listens on (default 4321)
 EXPOSE 4321

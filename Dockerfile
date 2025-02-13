@@ -15,12 +15,7 @@ COPY . .
 # This should produce a server bundle (e.g. in the "dist" directory)
 RUN bun run build
 
-# Stage 2: Create a .env file for Astro
-FROM oven/bun:latest AS envfile
-
-RUN printenv > /envfile
-
-# Stage 3: Run the built server bundle using Bun
+# Stage 1: Run the built server bundle using Bun
 FROM oven/bun:latest AS runner
 WORKDIR /app
 
@@ -31,6 +26,8 @@ COPY --from=envfile /envfile ./.env
 # Expose the port that your Astro app listens on (default 4321)
 EXPOSE 4321
 
+# Set the entrypoint so that it runs on container start
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Start the server bundle with Bun.
-# Adjust the path if your adapter outputs a different entry file.
 CMD ["sh", "-c", "HOST=:: PORT=4321 bun ./dist/server/entry.mjs"]

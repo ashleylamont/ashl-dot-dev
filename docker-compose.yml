@@ -15,6 +15,7 @@ services:
       - traefik_web
     env_file:
       - stack.env
+    restart: on-failure
 
 networks:
   traefik_web:

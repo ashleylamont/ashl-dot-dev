@@ -25,10 +25,6 @@ COPY --from=builder /app/dist ./dist
 # Expose the port that your Astro app listens on (default 4321)
 EXPOSE 4321
 
-# Set environment variables
-ENV HOST=0.0.0.0
-ENV PORT=4321
-
 # Start the server bundle with Bun.
 # Adjust the path if your adapter outputs a different entry file.
-CMD ["bun", "dist/server/entry.mjs"]
+CMD ["sh", "-c", "HOST=:: bun ./dist/server/entry.mjs"]

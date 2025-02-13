@@ -13,6 +13,8 @@ services:
       - "traefik.http.routers.ashldotdev.tls.certresolver=leresolver"
     networks:
       - traefik_web
+    env_file:
+      - stack.env
 
 networks:
   traefik_web:

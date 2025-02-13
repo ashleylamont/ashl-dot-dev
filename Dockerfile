@@ -18,7 +18,7 @@ RUN bun run build
 # Stage 2: Create a .env file for Astro
 FROM oven/bun:latest AS envfile
 
-CMD ["sh", "-c", "printenv > /envfile"]
+RUN printenv > /envfile
 
 # Stage 3: Run the built server bundle using Bun
 FROM oven/bun:latest AS runner

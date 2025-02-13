@@ -8,7 +8,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.nuxt.rule=Host(`ashl.dev`)"
       - "traefik.http.routers.nuxt.entrypoints=websecure"
-      - "traefik.http.services.nuxt.loadbalancer.server.port=3000"
+      - "traefik.http.services.nuxt.loadbalancer.server.port=4321"
       - "traefik.http.routers.nuxt.tls.certresolver=leresolver"
     networks:
       - traefik_web

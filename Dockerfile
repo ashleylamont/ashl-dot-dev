@@ -22,8 +22,8 @@ WORKDIR /app
 # Copy the built output from the builder stage
 COPY --from=builder /app/dist ./dist
 
-# Expose the port that your Astro app listens on (default 3000)
-EXPOSE 3000
+# Expose the port that your Astro app listens on (default 4321)
+EXPOSE 4321
 
 # Start the server bundle with Bun.
 # Adjust the path if your adapter outputs a different entry file.

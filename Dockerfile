@@ -21,7 +21,10 @@ WORKDIR /app
 
 # Copy the built output from the builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=envfile /envfile ./.env
+
+# Copy the entrypoint script and make it executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose the port that your Astro app listens on (default 4321)
 EXPOSE 4321

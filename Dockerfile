@@ -21,13 +21,6 @@ WORKDIR /app
 
 CMD ["sh", "-c", "printenv > /app/.env"]
 
-# Copy the rest of your application code
-COPY . .
-
-# Build the Astro app (using the @astro/node adapter)
-# This should produce a server bundle (e.g. in the "dist" directory)
-RUN bun run build
-
 # Stage 3: Run the built server bundle using Bun
 FROM oven/bun:latest AS runner
 WORKDIR /app

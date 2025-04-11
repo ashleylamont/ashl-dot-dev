@@ -8,6 +8,9 @@ COPY package.json bun.lockb ./
 # Install dependencies using Bun
 RUN bun install
 
+# Copy the rest of your application code
+COPY . .
+
 # Build the Astro app
 RUN bun run build
 

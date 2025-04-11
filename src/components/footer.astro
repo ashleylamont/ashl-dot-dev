@@ -4,6 +4,14 @@ import { Image } from "astro:assets";
 ---
 
 <div id="footer">
+  <script>
+    const ua = navigator.userAgent;
+    const targetUA = "Mozilla/3.0 (compatible; Netscape Navigator 3.0; Samsung Smart Fridge)";
+  
+    if (ua === targetUA) {
+      window.location.href = "/best-viewed-with";
+    }
+  </script>
   <div>
     This site is best viewed with NetScape Navigator 3.0 using a Samsung Smart
     Fridge <a href="https://www.destroyallsoftware.com/talks/wat"

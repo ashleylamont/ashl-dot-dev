@@ -34,6 +34,10 @@ export default defineConfig({
         context: "server",
         access: "secret",
       }),
+      TARGET_URL: envField.string({
+        context: "server",
+        access: "secret",
+      }),
     },
   },
   integrations: [

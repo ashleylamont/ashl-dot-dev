@@ -56,7 +56,7 @@ const spotifyRequest = fetch(
         },
       ).then((res) => res.json() as Promise<SpotifyApi.UsersTopTracksResponse>),
       fetch(
-        `https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=3`,
+        `https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=3`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -199,7 +199,7 @@ const filteredSocials = socialLinks.filter((link) => {
           </>
         );
       })
-    }, but over the last year, I've listened a bunch to{" "}
+    }, but over the last several months, I've listened a bunch to{" "}
     {
       spotifyLongTermTopSongs.map((song, index) => {
         return (

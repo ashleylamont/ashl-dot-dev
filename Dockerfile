@@ -8,13 +8,6 @@ COPY package.json bun.lockb ./
 # Install dependencies using Bun
 RUN bun install
 
-# Copy the rest of your application code
-COPY . .
-
-# Dump all current env vars into a .env file for Astro to pick up during build
-# This assumes env vars were passed into `docker build` with --build-arg
-RUN printenv > .env
-
 # Build the Astro app
 RUN bun run build
 

@@ -1,13 +1,35 @@
-import {defineConfig, passthroughImageService} from "astro/config";
+import { defineConfig, envField, passthroughImageService } from "astro/config";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 
 import node from "@astrojs/node";
-import {defaultHandlers} from "mdast-util-to-hast";
-import {normalizeUri} from "micromark-util-sanitize-uri";
+import { defaultHandlers } from "mdast-util-to-hast";
+import { normalizeUri } from "micromark-util-sanitize-uri";
 
 // https://astro.build/config
 export default defineConfig({
+  env: {
+    schema: {
+      STEAM_API_KEY: envField.string({
+        context: 'server', access: 'secret', default: '',
+      }),
+      STEAM_ID: envField.string({
+        context: 'server', access: 'public', default: ''
+      }),
+      SPOTIFY_USER_ID: envField.string({
+        context: 'server', access: 'public', default: ''
+      }),
+      SPOTIFY_CLIENT_ID: envField.string({
+        context: 'server', access: 'pubilc', default: ''
+      }),
+      SPOTIFY_CLIENT_SECRET: envField.string({
+        context: 'server', access: 'secret', default: ''
+      }),
+      SPOTIFY_REFRESH_TOKEN: envField.string({
+        context: 'server', access: 'secret', default: ''
+      }),
+    }
+  },
   integrations: [mdx({
     remarkRehype: {
       handlers: {
@@ -54,7 +76,7 @@ export default defineConfig({
               dataFootnoteRef: true,
               ariaDescribedBy: ['footnote-label']
             },
-            children: [{type: 'text', value: String(counter)}]
+            children: [{ type: 'text', value: String(counter) }]
           }
           state.patch(node, link)
 
@@ -95,7 +117,7 @@ export default defineConfig({
               properties: {
                 type: 'button'
               },
-              children: [{type: 'text', value: '​'}]
+              children: [{ type: 'text', value: '​' }]
             }]
           }
           state.patch(node, inlineButton)
@@ -105,7 +127,8 @@ export default defineConfig({
             type: 'element',
             tagName: 'style',
             properties: {},
-            children: [{type: 'text', value: `
+            children: [{
+              type: 'text', value: `
               #${clobberPrefix}fnref-${safeId}-checkbox ~ #${clobberPrefix}fnref-${safeId}-preview {
                 display: none;
                 font-style: italic;
@@ -122,9 +145,9 @@ export default defineConfig({
           state.patch(node, inlineStyle);
 
           const inlinePreviewChildren = [
-            {type: 'text', value: 'Footnote '},
-            {type: 'text', value: String(counter)},
-            {type: 'text', value: ': '},
+            { type: 'text', value: 'Footnote ' },
+            { type: 'text', value: String(counter) },
+            { type: 'text', value: ': ' },
             // {type: 'text', value: state.definitionById[id]}
           ]
 
@@ -149,7 +172,7 @@ export default defineConfig({
           }
 
           /** @type {Element} */
-          const container= {
+          const container = {
             type: 'element',
             tagName: 'span',
             properties: {
@@ -163,7 +186,7 @@ export default defineConfig({
         footnoteDefinition: (state, node) => {
           const id = String(node.identifier).toUpperCase();
           const footnoteReferences = state.footnoteReferencesById?.[id] ?? [];
-          const mapChild = ({type, value, children})=>{
+          const mapChild = ({ type, value, children }) => {
             if (type === 'emphasis') {
               return {
                 type: 'element',

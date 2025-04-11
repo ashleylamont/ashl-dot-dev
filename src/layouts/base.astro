@@ -52,7 +52,7 @@ const { title } = Astro.props;
       a {
         color: #f3beeb;
         text-decoration-style: dashed;
-          text-decoration-thickness: from-font;
+        text-decoration-thickness: from-font;
 
         &:hover {
           text-decoration-style: solid;
@@ -103,6 +103,49 @@ const { title } = Astro.props;
       @media (width < 768px) {
         .desktop-only {
           display: none !important;
+        }
+      }
+
+      [data-content-type="blog"] {
+        img {
+          border-radius: 10px;
+          max-width: 75%;
+          height: auto;
+        }
+
+        p:has(img) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          flex-direction: column;
+          font-size: small;
+          opacity: 0.8;
+        }
+      }
+
+      sup,
+      sub {
+        vertical-align: baseline;
+        position: relative;
+        top: -0.4em;
+      }
+      sub {
+        top: 0.4em;
+      }
+
+      label:has(button) {
+        cursor: pointer;
+      }
+
+      button {
+        pointer-events: none;
+        background-color: var(--accent);
+        color: black;
+        border: none;
+        border-radius: 5px;
+        &::after {
+          content: '?';
         }
       }
     </style>

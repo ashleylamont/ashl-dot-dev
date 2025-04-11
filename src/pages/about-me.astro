@@ -22,7 +22,7 @@ interface SteamResponse {
       img_logo_url: string;
       has_community_visible_stats?: boolean;
     }[];
-  }
+  };
 }
 
 export const prerender = false;
@@ -147,11 +147,9 @@ const filteredSocials = socialLinks.filter((link) => {
           I've been playing a bit of{" "}
           {recentGames.map((game, index) => {
             return (
-              <>
-                <a href={`https://store.steampowered.com/app/${game.appid}`}>
-                  {game.name}
-                </a>
-                {index === recentGames.length - 1 ? (
+              /* prettier-ignore */ <>
+                <a href={`https://store.steampowered.com/app/${game.appid}`}>{game.name}</a>{/*
+                */}{index === recentGames.length - 1 ? (
                   ""
                 ) : (
                   <>, {index === recentGames.length - 2 ? "and " : ""}</>
@@ -169,11 +167,9 @@ const filteredSocials = socialLinks.filter((link) => {
     {
       mostPlayedGames?.map((game, index) => {
         return (
-          <>
-            <a href={`https://store.steampowered.com/app/${game.appid}/`}>
-              {game.name}
-            </a>
-            {index === mostPlayedGames.length - 1 ? (
+          /* prettier-ignore */ <>
+            <a href={`https://store.steampowered.com/app/${game.appid}/`}>{game.name}</a>{/*
+            */}{index === mostPlayedGames.length - 1 ? (
               ""
             ) : (
               <>, {index === mostPlayedGames.length - 2 ? "and " : ""}</>
@@ -192,9 +188,9 @@ const filteredSocials = socialLinks.filter((link) => {
     {
       spotifyRecentTopSongs.map((song, index) => {
         return (
-          <>
-            <a href={song.external_urls.spotify}>{song.name}</a>
-            {index === spotifyRecentTopSongs.length - 1 ? (
+          /* prettier-ignore */ <>
+            <a href={song.external_urls.spotify}>{song.name}</a>{/*
+              */}{index === spotifyRecentTopSongs.length - 1 ? (
               ""
             ) : (
               <>, {index === spotifyRecentTopSongs.length - 2 ? "and " : ""}</>
@@ -206,9 +202,9 @@ const filteredSocials = socialLinks.filter((link) => {
     {
       spotifyLongTermTopSongs.map((song, index) => {
         return (
-          <>
-            <a href={song.external_urls.spotify}>{song.name}</a>
-            {index === spotifyLongTermTopSongs.length - 1 ? (
+          /* prettier-ignore */ <>
+            <a href={song.external_urls.spotify}>{song.name}</a>{/*
+            */}{index === spotifyLongTermTopSongs.length - 1 ? (
               ""
             ) : (
               <>

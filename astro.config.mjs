@@ -126,7 +126,7 @@ export default defineConfig({
                   properties: {
                     type: "button",
                   },
-                  children: [{ type: "text", value: "​" }],
+                  children: [],
                 },
               ],
             };
@@ -150,7 +150,6 @@ export default defineConfig({
                 display: block;
               }
               #${clobberPrefix}fnref-${safeId}-button button {
-                pointer-events: none;
               }
             `,
                 },

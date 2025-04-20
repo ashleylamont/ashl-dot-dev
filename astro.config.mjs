@@ -1,6 +1,7 @@
 import { defineConfig, envField, passthroughImageService } from "astro/config";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
+import umami from "@yeskunall/astro-umami";
 
 import node from "@astrojs/node";
 import { defaultHandlers } from "mdast-util-to-hast";
@@ -41,6 +42,10 @@ export default defineConfig({
     },
   },
   integrations: [
+    umami({
+      id: '8df88cdb-7a7d-4e87-885c-723d456e4459',
+      endpointUrl: 'https://prometheus.ashl.dev',
+    }),
     mdx({
       remarkRehype: {
         handlers: {

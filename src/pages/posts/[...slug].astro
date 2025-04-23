@@ -13,7 +13,7 @@ const {entry} = Astro.props;
 const {Content} = await entry.render();
 ---
 
-<Main>
+<Main title={entry.data.published ? entry.data.title : 'Ashley\'s Posts - Not published yet'} description={entry.data.published ? entry.data.description : 'This post is not published yet.'}>
     <div data-content-type="blog">
       {
           entry.data.published ?

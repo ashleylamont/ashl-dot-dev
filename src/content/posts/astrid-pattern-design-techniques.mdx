@@ -31,7 +31,7 @@ would do this, and then never did[^2]) I decided to try and recreate Astrid's dr
 
 [^2]: We both went on to each independently get diagnosed with ADHD, which really just explained an awful lot.
 
-![A photo of an animated woman wearing a full set of armour, make of iridescent blue dragon scales.](../../assets/astrid-armour.png)
+![A photo of an animated woman wearing a full set of armour, make of iridescent blue dragon scales.](../../assets/astrid/astrid-armour.png)
 See doesn't this look cool as heck? Who wouldn't want armour like this?
 
 I had no clue what I was doing going into this, and I'd never done anything like this before.
@@ -95,7 +95,7 @@ With that done, you too, can enjoy your very own axe, suitable for:
 - Chopping wood ❌
 - Looking cool as fuck ✅
 
-![A large double-bladed axe, made from prop materials](../../assets/axe.jpg)
+![A large double-bladed axe, made from prop materials](../../assets/astrid/axe.jpg)
 That's a cool-as-hell axe if you ask me.
 
 ## Ok wait, but I was promised cool armour. And lasers. That didn't use lasers :(
@@ -132,7 +132,7 @@ I took a bunch of screenshots of the dragon scale armour, and then I used those 
 
 I started with a pauldron, as I figured it'd be nice and simple. I meshed it out, and then translated it to something I could plot in 2d using the instructions from Kamui's tutorial video.
 
-![A screenshot of a 3d model of a pauldron](../../assets/pepakura.png)
+![A screenshot of a 3d model of a pauldron](../../assets/astrid/pepakura.png)
 You might end up with something that looks like this.
 
 Then I unfolded the model and realised I had nothing to plot it with.
@@ -150,7 +150,7 @@ So I pulled apart the blade, found a 3d model online for a pen attachment, print
 After you've done that, your vinyl cutter is actually now [a perfectly functional printer](https://www.youtube.com/watch?v=1s8Y4LFFU0o)[^8].
 [^8]: As long as what you want to print is entirely composed of lines.
 
-![A photo of a vinyl cutter with a pen attached to it and a piece of paper with a shape drawn onto it.](../../assets/plotter.jpg)
+![A photo of a vinyl cutter with a pen attached to it and a piece of paper with a shape drawn onto it.](../../assets/astrid/plotter.jpg)
 
 ### Cool so you've got the shape, now what?
 
@@ -166,7 +166,7 @@ But once you've done that, then yes, you just cut it out of foam.
 Then you can draw some funky circles[^10] on top like this:
 [^10]: Emphasis on the funky, these are not normal circles. If your circles look like circles, you did it wrong.
 
-![A photo of a piece of foam with a bunch of circles drawn on it](../../assets/funky-circles.jpg)
+![A photo of a piece of foam with a bunch of circles drawn on it](../../assets/astrid/funky-circles.jpg)
 
 And then to make those circles look like scales, you can grab a soldering iron, ideally one you don't like, and go at it.
 EVA foam burns really easily so you can just slice through the foam[^11].
@@ -188,7 +188,7 @@ If you find some nice iridescent paint, you can make it look like dragon scales.
 
 All you need to do from there is cut out some extra strips of foam, plastidip them, paint them brown, and glue then on for a bit of extra detail.
 
-![A photo of a pauldron with iridescent scales made from foam](../../assets/scale-armour.png)
+![A photo of a pauldron with iridescent scales made from foam](../../assets/astrid/scale-armour.png)
 The photo doesn't quite do it justice, but just imagine those scales are super shiny and sparkly in real life.
 
 ## Ok wait but that sounds like an awful process
@@ -211,15 +211,15 @@ Yep that's right, because we're already using a 3d model in blender, we can just
 
 I found a tutorial that explained how to make a cobblestone shader in blender using voronoi spaces, and modified things from there to get the effect I wanted.
 
-![A 3d model of a pauldron with scales on it](../../assets/scale-model.png)
+![A 3d model of a pauldron with scales on it](../../assets/astrid/scale-model.png)
 
-![A screenshot of a shader node graph in blender](../../assets/scale-shader.png)
+![A screenshot of a shader node graph in blender](../../assets/astrid/scale-shader.png)
 I love blender shaders, they're so much fun to play with.
 
 Then you just have to unwrap the model's UVs and bake the material into a texture.
 Fortunately you don't really have to worry about the UVs too much as long as none of the bits overlap, because any distortions will get corrected back out in the end.
 
-![A screenshot of a texture of a flattened pauldron with scales on it](../../assets/scale-texture.png)
+![A screenshot of a texture of a flattened pauldron with scales on it](../../assets/astrid/scale-texture.png)
 
 Then you can just make sure that you export the texture with your model and pepakura can read it from there!
 
@@ -227,13 +227,13 @@ But there's another issue. We want to be able to exclude parts of the model from
 Well luckily blender has a really awesome system called "geometry nodes" where you can do fun things based on 3d data and geometry.
 For instance, you could create a second object from lines where the scales would get skipped within a certain distance of those lines.
 
-![A screenshot of a geometry node graph in blender](../../assets/geometry-nodes.png)
+![A screenshot of a geometry node graph in blender](../../assets/astrid/geometry-nodes.png)
 This just calculates the distance from the current point to a second object.
 
-![A screenshot of a 3d model of a pauldron with a bunch of lines on it](../../assets/geometry-mesh.png)
+![A screenshot of a 3d model of a pauldron with a bunch of lines on it](../../assets/astrid/geometry-mesh.png)
 We can draw out lines like this for ares we want to skip.
 
-![A screenshot of a material node graph in blender](../../assets/geometry-material.png)
+![A screenshot of a material node graph in blender](../../assets/astrid/geometry-material.png)
 And then you can take the distance data from the geometry nodes and use it to filter the material that creates the scales.
 
 Then with that, you can export the model and the texture together and import it into pepakura, and then export them together into an SVG file for cutting.
@@ -244,27 +244,27 @@ Laser time!
 
 It isn't quite just "export and go", you need to do a bit of work and cleanup still, and I like to manually go over the texture output and clean up the edges for neatness, but then yes, you're ready to go!
 
-![A screenshot of pepakura designer with a textured model, and pieces of the texture split apart on the right](../../assets/pepakura-textures.png)
+![A screenshot of pepakura designer with a textured model, and pieces of the texture split apart on the right](../../assets/astrid/pepakura-textures.png)
 
-![A screenshot of affinity designer with a bunch of pieces of the texture and a solid outline for cutting](../../assets/combined-laser-file.png)
+![A screenshot of affinity designer with a bunch of pieces of the texture and a solid outline for cutting](../../assets/astrid/combined-laser-file.png)
 With a little bit of cleanup, you can get a nice neat SVG file like this.
 
 Then you just load it into your laser cutter (after tunning it to the foam you're using), and cut it all out!
 
-![A photo of a piece of foam used for tuning the laser cutter, with a bunch of etchings marked into it](../../assets/laser-tuning.jpg)
+![A photo of a piece of foam used for tuning the laser cutter, with a bunch of etchings marked into it](../../assets/astrid/laser-tuning.jpg)
 The laser cutter tuning is an interesting process, you just cut stuff out at different speeds and powers until you find the right mix. Sometimes things catch on fire too, which is fun.
 
-![A photo of a laser cutter with a piece of foam inside it](../../assets/laser-cutter.jpg)
+![A photo of a laser cutter with a piece of foam inside it](../../assets/astrid/laser-cutter.jpg)
 Wooo lasers! Finally!
 
 Using a laser cutter means the resulting pieces are all super cleanly cut, way nicer than you can get by hand.
 
-![A photo of a sample piece with scales cut into it](../../assets/laser-sample.jpg)
+![A photo of a sample piece with scales cut into it](../../assets/astrid/laser-sample.jpg)
 Look at how even the gaps between the scales are! It's so nice!!
 
 Then you just need to glue it all together, as before, and you can have an awesome looking pauldron like this:
 
-![A photo of a test piece of a laser-cut pauldron](../../assets/pauldron-lasers.jpg)
+![A photo of a test piece of a laser-cut pauldron](../../assets/astrid/pauldron-lasers.jpg)
 This is a test piece, so it doesn't have the detailing on it yet, but you can see how nice and clean the edges and scales all are.
 
 ## So what about the rest of the armour?

@@ -1,6 +1,9 @@
 ---
 import "@fontsource/rokkitt/400.css";
 import "@fontsource/rokkitt/700.css";
+import rokkittWoff2_400 from "@fontsource/rokkitt/files/rokkitt-latin-400-normal.woff2";
+import rokkittWoff2_700 from "@fontsource/rokkitt/files/rokkitt-latin-700-normal.woff2";
+import comingSoonWoff2 from "@fontsource/coming-soon/files/coming-soon-latin-400-normal.woff2";
 import Footer from "../components/footer.astro";
 const { title, description } = Astro.props;
 ---
@@ -8,18 +11,44 @@ const { title, description } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+    <!-- If we don't pre-load the main fonts then we get a ton of layout shifts after initial render -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={rokkittWoff2_400}
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={rokkittWoff2_700}
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={comingSoonWoff2}
+      crossorigin="anonymous"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title??"Ashley's Corner"}</title>
-    <meta name="description" content={description??"The internet has many strange and wonderful corners, but this one is mine 🦄✨"} />
+    <title>{title ?? "Ashley's Corner"}</title>
+    <meta
+      name="description"
+      content={description ??
+        "The internet has many strange and wonderful corners, but this one is mine 🦄✨"}
+    />
     <style is:global>
       :root {
         font-size: 1.1rem;
       }
 
       * {
-        font-family: "Rokkitt", monospace;
+        font-family: "Rokkitt", serif;
       }
 
       @property --background {
@@ -123,30 +152,50 @@ const { title, description } = Astro.props;
           font-size: small;
           opacity: 0.8;
         }
+
+        sup,
+        sub {
+          vertical-align: baseline;
+          position: relative;
+          top: -0.4em;
+        }
+        sub {
+          top: 0.4em;
+        }
+
+        label:has(button) {
+          cursor: pointer;
+        }
+
+        button {
+          pointer-events: none;
+          background-color: var(--accent);
+          color: black;
+          border: none;
+          border-radius: 5px;
+          &::after {
+            content: "?";
+          }
+        }
+
+        @media (pointer: coarse) {
+          button {
+            padding: 0.25rem 0.5rem;
+            font-size-adjust: 0.5rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+          }
+        }
       }
 
-      sup,
-      sub {
-        vertical-align: baseline;
-        position: relative;
-        top: -0.4em;
-      }
-      sub {
-        top: 0.4em;
+      /* Make closely bundled buttons more spread out on touchscreen devices */
+      .link-list > li {
+        transition: margin 0.1s ease-in-out;
       }
 
-      label:has(button) {
-        cursor: pointer;
-      }
-
-      button {
-        pointer-events: none;
-        background-color: var(--accent);
-        color: black;
-        border: none;
-        border-radius: 5px;
-        &::after {
-          content: '?';
+      @media (pointer: coarse) {
+        .link-list > li {
+          margin: 0.5rem 0;
         }
       }
     </style>

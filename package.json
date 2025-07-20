@@ -28,6 +28,7 @@
     "typescript": "^5.4.2"
   },
   "devDependencies": {
+    "@types/bun": "^1.2.15",
     "@types/spotify-api": "^0.0.25"
   }
 }

@@ -43,8 +43,8 @@ export default defineConfig({
   },
   integrations: [
     umami({
-      id: '8df88cdb-7a7d-4e87-885c-723d456e4459',
-      endpointUrl: 'https://prometheus.ashl.dev',
+      id: "8df88cdb-7a7d-4e87-885c-723d456e4459",
+      endpointUrl: "https://prometheus.ashl.dev",
     }),
     mdx({
       remarkRehype: {
@@ -255,6 +255,6 @@ export default defineConfig({
   }),
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: "viewport",
+    defaultStrategy: "hover",
   },
 });

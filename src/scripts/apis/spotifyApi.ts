@@ -4,10 +4,11 @@ abstract class SpotifyApi extends Api<
   Pick<SpotifyApi.TrackObjectFull, "name" | "external_urls">,
   SpotifyApi.UsersTopTracksResponse
 > {
-  protected abstract timeScale: "short_term" | "medium_term";
+  protected abstract timeScale: "short" | "medium";
+  protected override readonly needsToken = "spotify";
 
   protected override getRequestUrl(maxItemCount: number): string {
-    return `https://api.spotify.com/v1/me/top/tracks?time_range=${this.timeScale}&limit=${maxItemCount}`;
+    return `https://api.spotify.com/v1/me/top/tracks?time_range=${this.timeScale}_term&limit=${maxItemCount}`;
   }
 
   protected override getRequestHeaders(token: string | null): HeadersInit {
@@ -30,16 +31,16 @@ abstract class SpotifyApi extends Api<
     "name" | "external_urls"
   > {
     return {
-      name: "failed to fetch long term top songs",
+      name: `failed to fetch ${this.timeScale}-term top songs`,
       external_urls: { spotify: "" },
     };
   }
 }
 
 export class SpotifyShortTermApi extends SpotifyApi {
-  protected readonly timeScale = "short_term";
+  protected readonly timeScale = "short";
 }
 
 export class SpotifyMediumTermApi extends SpotifyApi {
-  protected readonly timeScale = "medium_term";
+  protected readonly timeScale = "medium";
 }

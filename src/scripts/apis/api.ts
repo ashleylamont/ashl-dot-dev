@@ -34,6 +34,7 @@ export abstract class Api<T, R = T[]> {
         maxItemCount,
       );
     } catch (error) {
+      console.error(error);
       return [this.fallbackItem()];
     }
   }

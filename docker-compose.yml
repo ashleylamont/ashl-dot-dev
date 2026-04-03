@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ashleylamont/ashl-dev:latest
+    image: ghcr.io/ashleylamont/ashl-dot-dev:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ashldotdev.rule=Host(`ashl.dev`)"

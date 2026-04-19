@@ -1,6 +1,6 @@
 import { Api } from "./api.ts";
 
-abstract class SpotifyApi extends Api<
+abstract class SpotifyTopTracksApi extends Api<
   Pick<SpotifyApi.TrackObjectFull, "name" | "external_urls">,
   SpotifyApi.UsersTopTracksResponse
 > {
@@ -20,6 +20,10 @@ abstract class SpotifyApi extends Api<
   protected override parseResponse(
     responseData: SpotifyApi.UsersTopTracksResponse,
   ): Pick<SpotifyApi.TrackObjectFull, "name" | "external_urls">[] {
+    if (!responseData || !Array.isArray(responseData.items)) {
+      throw new Error("Spotify response did not include a valid items array");
+    }
+
     return responseData.items.map((song) => ({
       name: song.name,
       external_urls: song.external_urls,
@@ -37,10 +41,10 @@ abstract class SpotifyApi extends Api<
   }
 }
 
-export class SpotifyShortTermApi extends SpotifyApi {
+export class SpotifyShortTermApi extends SpotifyTopTracksApi {
   protected readonly timeScale = "short";
 }
 
-export class SpotifyMediumTermApi extends SpotifyApi {
+export class SpotifyMediumTermApi extends SpotifyTopTracksApi {
   protected readonly timeScale = "medium";
 }

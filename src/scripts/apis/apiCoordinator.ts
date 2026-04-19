@@ -26,8 +26,19 @@ export default class ApiCoordinator {
       throw new Error(`Error fetching Spotify token: ${e}`);
     });
     const tokenResponseBody = await tokenResponse.text();
+    if (!tokenResponse.ok) {
+      throw new Error(
+        `Spotify token request failed with ${tokenResponse.status}: ${tokenResponseBody.slice(0, 300)}`,
+      );
+    }
+
     try {
-      const tokenData = JSON.parse(tokenResponseBody);
+      const tokenData = JSON.parse(tokenResponseBody) as {
+        access_token?: string;
+      };
+      if (!tokenData.access_token) {
+        throw new Error("Spotify token response did not include access_token");
+      }
       return tokenData.access_token;
     } catch (e) {
       console.warn(

@@ -5,5 +5,6 @@
         "Interpretability",
         "rokkitt",
         "umami"
-    ]
+    ],
+    "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

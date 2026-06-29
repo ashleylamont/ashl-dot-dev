@@ -18,6 +18,11 @@ RUN bun run build
 FROM oven/bun:latest AS runner
 WORKDIR /app
 
+# The SSR bundle externalizes some deps (e.g. `cookie`). Ship the resolved,
+# lockfile-pinned node_modules so Bun doesn't auto-install the latest version
+# of those packages at runtime.
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 4321

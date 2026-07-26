@@ -1,4 +1,5 @@
 import { defineConfig, envField, passthroughImageService } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 import umami from "@yeskunall/astro-umami";
@@ -47,7 +48,13 @@ export default defineConfig({
     //   id: "8df88cdb-7a7d-4e87-885c-723d456e4459",
     //   endpointUrl: "https://prometheus.ashl.dev",
     // }),
-    mdx({
+    mdx(),
+    icon(),
+  ],
+  markdown: {
+    // Astro 7 defaults to Sätteri; the inline-footnote handlers below are
+    // written against the unified remark/rehype pipeline.
+    processor: unified({
       remarkRehype: {
         handlers: {
           /* @mangopdf I'm stealing your inline footnotes, but without the javascript */
@@ -245,8 +252,7 @@ export default defineConfig({
         },
       },
     }),
-    icon(),
-  ],
+  },
   image: {
     service: passthroughImageService(),
   },

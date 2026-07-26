@@ -1,27 +1,31 @@
 import { z, defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
 
 const postCollection = defineCollection({
-  type: "content",
+  loader: glob({ base: "./src/content/posts", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
     publishedDate: z.string().transform((str) => new Date(str)),
     tags: z.array(z.string()),
     thumbnail: z.string().optional(),
-    published: z.oboolean().default(true),
+    published: z.boolean().default(true),
   }),
 });
 const navCollection = defineCollection({
-  type: "data",
+  loader: glob({ base: "./src/content/nav", pattern: "**/*.{yaml,yml}" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
     order: z.number(),
     match: z.union([z.literal("exact"), z.literal("prefix")]),
-  })
+  }),
 });
 const experienceCollection = defineCollection({
-  type: "data",
+  loader: glob({
+    base: "./src/content/experience",
+    pattern: "**/*.{yaml,yml}",
+  }),
   schema: z.object({
     type: z.union([
       z.literal("work"),
@@ -40,7 +44,7 @@ const experienceCollection = defineCollection({
 });
 
 const linksCollection = defineCollection({
-  type: "data",
+  loader: glob({ base: "./src/content/links", pattern: "**/*.{yaml,yml}" }),
   schema: z.object({
     title: z.string(),
     url: z.string().optional(),

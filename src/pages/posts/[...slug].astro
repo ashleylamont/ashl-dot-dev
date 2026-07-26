@@ -1,16 +1,16 @@
 ---
-import {getCollection} from "astro:content";
+import {getCollection, render} from "astro:content";
 import Main from "../../layouts/main.astro";
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   return posts.map((entry) => ({
-    params: {slug: entry.slug},
+    params: {slug: entry.id},
     props: {entry},
   }));
 }
 
 const {entry} = Astro.props;
-const {Content} = await entry.render();
+const {Content} = await render(entry);
 ---
 
 <Main title={entry.data.published ? entry.data.title : 'Ashley\'s Posts - Not published yet'} description={entry.data.published ? entry.data.description : 'This post is not published yet.'}>

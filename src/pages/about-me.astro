@@ -180,9 +180,15 @@ const filteredSocials = socialLinks.filter((link) => {
         filteredSocials.map((link) => {
           return (
             <li>
-              <a href={link.data.url}>
-                {link.data.title} ({link.data.site})
-              </a>
+              {link.data.url ? (
+                <a href={link.data.url}>
+                  {link.data.title} ({link.data.site})
+                </a>
+              ) : (
+                <span>
+                  {link.data.title} ({link.data.site})
+                </span>
+              )}
             </li>
           );
         })

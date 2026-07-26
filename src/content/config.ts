@@ -43,7 +43,7 @@ const linksCollection = defineCollection({
   type: "data",
   schema: z.object({
     title: z.string(),
-    url: z.string(),
+    url: z.string().optional(),
     site: z.string(),
     tags: z.array(z.string()),
   }),

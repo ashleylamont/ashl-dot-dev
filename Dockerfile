@@ -1,5 +1,5 @@
 # Stage 1: Build the Astro app with Bun
-FROM oven/bun:latest AS builder
+FROM oven/bun:1.4.3 AS builder
 WORKDIR /app
 
 # Copy package files (Bun uses bun.lockb for lock information)
@@ -15,7 +15,7 @@ COPY . .
 RUN bun run build
 
 # Stage 2: Run the built server bundle using Bun
-FROM oven/bun:latest AS runner
+FROM oven/bun:1.4.3 AS runner
 WORKDIR /app
 
 # The SSR bundle externalizes some deps (e.g. `cookie`). Install the
